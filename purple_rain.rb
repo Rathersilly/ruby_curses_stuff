@@ -2,22 +2,22 @@ require 'curses'
 require 'pry'
 require 'logger'
 
+
 include Curses
 class Drop
   attr_accessor :x, :y, :z, :shape, :speed
-
   def initialize(y = 10, x = 10, z = 10)
     @x = x
     @y = y
     @z = z
     @z = rand(1..10)
-    @shape = '|'
+    @shape = "|"
     max_speed = 10
     min_speed = 4
-    @speed = @z / 10.0 * (max_speed - min_speed) + min_speed
+    @speed = @z/10.0 * (max_speed - min_speed) + min_speed
     # @speed  is 5 if z = 1, is 10 if z = 10
     # % should be ok
-    @@speed = rand(min_speed..max_speed)
+    @@speed = rand(min_speed..max_speed) 
     @shape =  "\u2503" if speed > 8
   end
 end
@@ -27,9 +27,10 @@ log = Logger.new(LOGFILE)
 INTERVAL = 0.005
 COLOR = 5
 
+
 init_screen
-HEIGHT = Curses.lines # 30#Curses.lines
-WIDTH = Curses.cols # 80#Curses.cols
+HEIGHT = Curses.lines#30#Curses.lines
+WIDTH = Curses.cols#80#Curses.cols
 start_color
 curs_set(0)
 # noecho
