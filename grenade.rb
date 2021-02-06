@@ -105,7 +105,8 @@ begin
 
     # Draw actors
     actors.each do |actor|
-      log.info("#{actor.name}: win.setpos(#{actor.y}, #{actor.x})")
+      # WAAAAAY too much to log
+      #log.info("#{actor.name}: win.setpos(#{actor.y}, #{actor.x})") 
       win.setpos(actor.y, actor.x)
       win << actor.shape
       win.setpos(0,0)
