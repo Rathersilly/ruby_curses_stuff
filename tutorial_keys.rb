@@ -1,0 +1,43 @@
+require 'curses'
+include Curses
+
+init_screen
+win = stdscr
+curs_set(0) # 0=invis, 1=vis, 2=veryvis
+#cbreak # disables line buffering - turn off w/ nocbreak
+# raw # disables line buf + ctrl keys - turn off w/ nocbreak
+
+count = 1
+win.timeout = 0
+begin
+  loop do
+    win.clear
+    win.setpos((lines / 2 - 1), (cols / 2 - 1))
+    win << "Press something "
+    win.attron(A_BOLD) { win << "#{count}" }
+    win.refresh
+    str = win.getch       # get character, wait for enter
+    #str = win.getstr      # get line
+
+    case str
+    #when 'j'
+    when 'q' 
+      exit 0
+    #else
+    when /\w/
+      win.clear
+      msg = "YOU HAVE PRESSED #{str}"
+      win.setpos((lines / 2 - 1), (cols / 2 - 1) - msg.size / 2)
+      win << msg
+      win.refresh
+      sleep 0.3
+    end
+    sleep 0.3
+    count += 1
+  end
+
+
+ensure
+  close_screen
+end
+

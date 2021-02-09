@@ -13,10 +13,10 @@ log = Logger.new("log")
 init_screen
 HEIGHT = lines > 30 ? 30 : lines
 WIDTH = cols > 80 ? 80 : cols
-INTERVAL = 0.5
-GRAV = 1
+INTERVAL = 0.2
+GRAV = 0.3
 BOUNCES_BEFORE_EXPLODE = 3
-THROWING_SPEED = 15
+THROWING_SPEED = 3
 SHRAPNEL_SPEED = 25.0
 
 top = (Curses.lines - HEIGHT) / 2
@@ -34,8 +34,10 @@ begin
   win = Curses::Window.new(HEIGHT, WIDTH, top, left)
   win.box("|", "-")
   win.refresh
-  l_win = Window.new(3, 4, LGUY_Y, LGUY_X)
-  r_win = Window.new(3, 4, RGUY_Y, RGUY_X)
+  l_win = win.derwin(3,4,HEIGHT - 5,5)
+  r_win = win.derwin(3,4,HEIGHT - 5,WIDTH - 9)
+  #l_win = Window.new(3, 4, LGUY_Y, LGUY_X)
+  #r_win = Window.new(3, 4, RGUY_Y, RGUY_X)
   loop do 
     frame += 1; frame = 0 if frame == 7
     if active_nades < -1
@@ -52,7 +54,7 @@ begin
     r_win.refresh
     # if throwing animation is in right spot
     if frame == 0 || frame == 3#true #LGUY.peek == LGUY.to_a.last
-      new_guy = Grenade.new(20,10,0,0)#(LGUY_X + 6, LGUY_Y - 4, 0, 0)
+      new_guy = Grenade.new(8,HEIGHT - 7,0,0)#(LGUY_X + 6, LGUY_Y - 4, 0, 0)
       angle = Math::PI * 3/8
       new_guy.vx = 15#Math.cos(angle) * THROWING_SPEED
       new_guy.vy = -Math.sin(angle) * THROWING_SPEED
