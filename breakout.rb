@@ -1,31 +1,64 @@
 require 'curses'
+require 'io/console'
+require './init_breakout.rb'
 include Curses
 
-init_screen
-noecho
-curs_set(0) # Invisible Cursor
-HEIGHT = lines
-WIDTH = cols
+
+count = 1
+
+class Game
+  
+  def start
+    begin
+      # game loop
+      loop do
+        # loop through pieces and draw each one
+        draw
+        # get input
+        get_input
+        # loop through pieces and update their state
+        update
 
 
-clear
-stdscr.box('|', '-')
-stdscr << 'Hello'
-setpos(HEIGHT / 2, WIDTH / 2)
-stdscr.addstr('Sup')
-stdscr.refresh
-getch
-win = stdscr
-#input = win.getch
-#input = win.getstr
-if input == Curses::Key::LEFT
-  setpos(HEIGHT / 2, WIDTH / 2)
-  stdscr.attron
-  stdscr.addstr('Sup')
-else
-  win.addstr('Other key')
+
+
+
+        $stdin.iflush
+        sleep 0.1
+      end
+    ensure
+      close_screen
+    end
+  end
+  def draw
+    @win.clear
+    @win.box("|", "-")
+    @things.each do |thing|
+      @win.setpos(thing.row, thing.col)
+      @win << thing.image
+
+    end
+    @win.refresh
+  end
+  def get_input
+    input = getch
+    case input
+    when 'h'
+      @bar.col -= 3
+      @bar.col = 1 if @bar.col < 1
+    when 'l'
+      @bar.col += 3
+      if @bar.col + @bar.length > @win.maxx - 1
+        @bar.col = @win.maxx - @bar.length - 1
+      end
+    end
+  end
+  def update
+    
+    #@things.each do |thing|
+      #thing.update
+    #end
+  end
+
 end
-win << input
-win.refresh
-win.getch
-close_screen
+Game.new(test: false)
