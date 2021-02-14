@@ -2,46 +2,62 @@ require 'curses'
 include Curses
 require 'io/console'
 
+
 class Thing
-  attr_accessor :row, :col, :length, :color, :image
+  attr_accessor :row, :col, :length, :color, :image, :pixels
 
   def initialize(row, col, color = COLOR_RED)
     @row = row - 3
     @col = col  / 2
     @color = color
   end
+  def update
+  end
 end
 
 class Bar < Thing
-  def initialize(row, col, color = COLOR_RED, length = 7)
+  def initialize(row, col, color = COLOR_RED, length = 9)
     @length = length
-    @image = "X" * length
+    #@image = "111333555" 
+    @image = "5" * length
     super(row, col, color)
+    update_pixels
+  end
+  def update_pixels
+
+    @pixels = []
+    @length.times { |c| @pixels << [row,col + c] }
+
   end
 end
 class Ball < Thing
-  def initialize(row, col, color = COLOR_RED)
+  attr_accessor :vx, :vy
+  def initialize(row, col, color = COLOR_BLUE)
     @image = "@"
+    @color = color
+    @vx = 1
+    @vy = 1
     super(row, col, color)
   end
+
+  def update
+
+  end
+
 
 end
 class Game
   def initialize(args = {})
+    @msg = ''
 
-    init_screen
-    @win = stdscr.derwin(30, 50, 0, 0)
-
-    curs_set(0) # 0=invis, 1=vis, 2=veryvis
-    cbreak # disables line buffering - turn off w/ nocbreak
-    noecho
-    @win.timeout = 0
-    @win.box("|", "-")
     @things = []
-    @bar = Bar.new(@win.maxy, @win.maxx - 3)
+    @bar = Bar.new(Win.maxy, Win.maxx - 3)
     @ball = Ball.new(10, 10)
     @things << @bar
     @things << @ball
+    @key = ''
+    @frame = 0
+
     start unless args[:test] == true
   end
 end
