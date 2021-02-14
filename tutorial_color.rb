@@ -1,31 +1,39 @@
 require 'curses'
 include Curses
 
-Curses.noecho # do not show typed keys
-Curses.init_screen
-Curses.stdscr.keypad(true) # enable arrow keys (required for pageup/down)
-Curses.start_color
+noecho # do not show typed keys
+init_screen
+stdscr.keypad(true) # enable arrow keys (required for pageup/down)
+start_color
 # Determines the colors in the 'attron' below
-Curses.init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK) 
-Curses.init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK)
+init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK) 
+init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK)
 stdscr.keypad = true
 loop do
 
-  case Curses.getch
+  case getch
 
   when Curses::KEY_DOWN, ?j
-    Curses.clear
-    Curses.setpos(0,0)
+    clear
+    setpos(0,0)
     # Use colors defined color_init
-    Curses.attron(color_pair(COLOR_RED)|A_NORMAL){
-      Curses.addstr("Page Up")
+    attron(color_pair(COLOR_RED)|A_NORMAL){
+      addstr("Page Up\n")
     }
   when Curses::KEY_UP, ?k
-    Curses.clear
-    Curses.setpos(0,0)
-    Curses.attron(color_pair(COLOR_BLUE)|A_NORMAL){
-      Curses.addstr("Page Down")
+    clear
+    setpos(0,0)
+    attron(color_pair(COLOR_BLUE)|A_NORMAL){
+      addstr("Page Down\n")
     }
   end
+
+  attron(color_pair(1) | A_BOLD) { addstr("A_BOLD\n") }
+  attron(color_pair(1) | A_UNDERLINE) { addstr("A_UNDERLINE\n") }
+  attron(color_pair(1) | A_DIM) { addstr("A_DIM\n") }
+  attron(color_pair(1) | A_REVERSE) { addstr("A_REVERSE\n") }
+  attron(color_pair(1) | A_BLINK) { addstr("A_BLINK\n") }
+  attron(color_pair(1) | A_REVERSE) { addstr("A_REVERSE\n") }
+  refresh
 end
 
