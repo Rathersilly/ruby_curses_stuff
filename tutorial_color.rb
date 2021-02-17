@@ -9,19 +9,23 @@ start_color
 init_pair(COLOR_BLUE,COLOR_BLUE,COLOR_BLACK) 
 init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK)
 stdscr.keypad = true
+win = stdscr.derwin(10, 10, 20, 40)
+init_pair(100, 2, 4)
+win.bkgd(color_pair(100))
+win.refresh
 loop do
 
   case getch
 
   when Curses::KEY_DOWN, ?j
-    clear
+    #clear
     setpos(0,0)
     # Use colors defined color_init
     attron(color_pair(COLOR_RED)|A_NORMAL){
       addstr("Page Up\n")
     }
   when Curses::KEY_UP, ?k
-    clear
+    #clear
     setpos(0,0)
     attron(color_pair(COLOR_BLUE)|A_NORMAL){
       addstr("Page Down\n")

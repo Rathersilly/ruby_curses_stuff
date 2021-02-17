@@ -19,7 +19,7 @@ class Thing
 end
 
 class Bar < Thing
-  def initialize(row, col, color = COLOR_RED, length = 11)
+  def initialize(row, col, color = Bar_pair, length = 11)
     @length = length
     @image = "11113335555" 
     #@image = "5" * length
@@ -37,7 +37,7 @@ class Bar < Thing
 end
 class Ball < Thing
   attr_accessor :vx, :vy
-  def initialize(row, col, color = COLOR_BLUE)
+  def initialize(row, col, color = COLOR_BLACK)
     @image = "@"
     @color = color
     @vx = 1

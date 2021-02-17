@@ -14,12 +14,15 @@ noecho
 stdscr.keypad = true
 # Win.keypad = true 
 stdscr.timeout = 0
-Win.box("|", "-")
 start_color
 init_pair(1, 1, 0)
 init_pair(2, 2, 0)
 init_pair(3, 3, 0)
 init_pair(4, 4, 0)
+init_pair(7, 0, COLOR_BLUE)
+Bar_pair = 12
+init_pair(Bar_pair, COLOR_BLACK, COLOR_BLUE)
+Win.box("|", "-")
 
 count = 1
 
@@ -49,6 +52,7 @@ class Game
     stdscr.clear
     Win.clear
     Win.box('|', '-')
+    Win.bkgd(color_pair(7))
     stdscr.setpos(0,5)
     stdscr.addstr("frame #{@frame}, key: #{@key}, vx: #{@ball.vx}, vy: #{@ball.vy}")
     stdscr.setpos(1,5)
