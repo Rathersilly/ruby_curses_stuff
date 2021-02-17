@@ -4,7 +4,8 @@ require './init_breakout'
 include Curses
 init_screen
 # Win = stdscr.derwin(30, 50, 0, 0)
-Win = stdscr.derwin(20, 30, 0, 0)
+Win = stdscr.derwin(20, 38, 10, 10)
+# Win = stdscr.derwin(11, 13, 5, 10)
 Rows = Win.maxy; Cols = Win.maxx
 
 curs_set(0) # 0=invis, 1=vis, 2=veryvis
@@ -16,6 +17,8 @@ stdscr.timeout = 0
 Win.box("|", "-")
 start_color
 init_pair(1, 1, 0)
+init_pair(2, 2, 0)
+init_pair(3, 3, 0)
 init_pair(4, 4, 0)
 
 count = 1
@@ -31,9 +34,11 @@ class Game
       get_input
       # loop through pieces and update their state
       update_pos
+      collide
 
       $stdin.iflush
       @frame += 1
+      # sleep 0.05
       sleep 0.1
     end
   ensure
@@ -41,12 +46,17 @@ class Game
   end
 
   def draw
-    #stdscr.clear
+    stdscr.clear
     Win.clear
     Win.box('|', '-')
-    Win.setpos(0,0)
-    Win.addstr("frame #{@frame}, key: #{@key}, vx: #{@ball.vx}, vy: #{@ball.vy}, msg: #{@msg}")
-    #setpos(1,50)  # => 
+    stdscr.setpos(0,5)
+    stdscr.addstr("frame #{@frame}, key: #{@key}, vx: #{@ball.vx}, vy: #{@ball.vy}")
+    stdscr.setpos(1,5)
+    stdscr.addstr("msg: #{@msg}")
+    stdscr.setpos(3,5)
+    stdscr.addstr("msg2: #{@msg2}")
+    stdscr.refresh
+    # Win.addstr("frame #{@frame}, key: #{@key}, vx: #{@ball.vx}, vy: #{@ball.vy}, msg: #{@msg}")
     #addstr("#{@bar.pixels}, #{@ball.row}, #{@ball.col}")
     
 
@@ -79,11 +89,25 @@ class Game
     # this function needs access to bar pixels so cant be in Ball class
     @ball.row += @ball.vy
     @ball.col += @ball.vx
-    pos = [@ball.row, @ball.col]
-    @msg = "#{@bar.pixels} POS: #{pos}"
 
+    pos = [@ball.row.to_i, @ball.col.to_i]
+    @msg = "Bar pixels: #{@bar.pixels}\n     Ball position: #{pos}"
 
-    # check if ball and bar collide
+  end
+
+  def collide
+    pos = [@ball.row.to_i, @ball.col.to_i]
+    
+    # Edge case - stop ball from sneaking by literal edge
+    if pos[0] == @bar.row
+      if pos[1] == 0 && @bar.col == 1
+        @ball.col = 1
+      elsif pos[1] == Cols - 1 && @bar.col = Cols - 1 - @bar.length
+        @ball.col = Cols - 1
+      end
+    end
+    
+    # Ball colliding with bar
     if @bar.pixels.include?(pos)
       pix = @bar.image[@ball.col - @bar.col]
 
@@ -107,6 +131,7 @@ class Game
       end
     end
 
+    # Ball colliding with border
     if @ball.row == Rows - 1
       @ball.row = Rows - 2
       @ball.vy = -@ball.vy
@@ -121,13 +146,6 @@ class Game
       @ball.col = 1
       @ball.vx = -@ball.vx
     end
-    #@ball.things.each do |thing|
-      #thing.update
-      # check collision
-      
-  end
-  def collide
-
   end
 end
 Game.new(test: false)
