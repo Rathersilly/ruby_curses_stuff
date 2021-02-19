@@ -39,4 +39,3 @@ class Turtle
   end
 end
 
-def w

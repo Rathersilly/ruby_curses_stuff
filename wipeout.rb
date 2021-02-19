@@ -18,8 +18,7 @@ start_color
 init_pair(1, 1, 3)
 Win.color_set(1)
 
-#Win.bkgd(color_pair(1))
-Win.bkgdset(color_pair(1))
+Win.bkgd(color_pair(1))
 
 
 x = "hi" * 10
@@ -42,7 +41,7 @@ def wipeout(h, w)
   end
 end
 
-#wipeout(h,w)
+wipeout(h,w)
 
 getch
 

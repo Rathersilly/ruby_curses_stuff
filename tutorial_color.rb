@@ -11,7 +11,12 @@ init_pair(COLOR_RED,COLOR_RED,COLOR_BLACK)
 stdscr.keypad = true
 win = stdscr.derwin(10, 10, 20, 40)
 init_pair(100, 2, 4)
+# Set Window background color
 win.bkgd(color_pair(100))
+# Set window default writing color
+win.color_set(1)
+win.setpos(3,3)
+win << "hello"
 win.refresh
 loop do
 
