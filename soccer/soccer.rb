@@ -34,59 +34,19 @@ gpos = [Rows - 10, Cols/2 - Art_ga[0].size / 2]
 uwin = stdscr.derwin(10,10, upos[0], upos[1])
 rwin = stdscr.derwin(10,10, rpos[0], rpos[1])
 gwin = stdscr.derwin(10,60, gpos[0], gpos[1])
+wins = {u: uwin, r: rwin, g: gwin }
 
 
 
 count = 0
 loop do
-  uwin.clear
-  rwin.clear
-  gwin.clear
+  wins.each_value {|v| v.clear }
   Win.clear
   rwin.move(rpos[0], rpos[1])
   rwin.move(rmaxpos[0], rmaxpos[1]) if rpos[1] > rmaxpos[1]
   uwin.move(upos[0], upos[1])
   uwin.move(umaxpos[0], umaxpos[1]) if upos[1] < umaxpos[1]
   gwin.move(gpos[0], gpos[1]) unless gpos[0] < Rows / 2
-  Win.refresh
-  uwin  << Art_u
-  rwin  << Art_r
-  gwin  << Art_g
-  stdscr.setpos(0,0)
-  stdscr.addstr("#{count}, #{}")
-  #uwin.box('|','-')
-  #rwin.box('|','-')
-  stdscr.refresh
-  uwin.refresh
-  rwin.refresh
-  gwin.refresh
-  #getch
-  sleep 0.05
-  upos[1] -= 4
-  rpos[1] += 4
-  gpos[0] -= 1
-  count += 1
-  break if count > 25
-
-end
-getch
-uwin.move(umaxpos[0], umaxpos[1])
-rwin.move(rmaxpos[0], rmaxpos[1])
-upos[0] = umaxpos[0]; upos[1] = umaxpos[1]
-rpos[0] = rmaxpos[0]; rpos[1] = rmaxpos[1]
-draw_field
-refresh
-
-
-loop do
-  uwin.clear
-  rwin.clear
-  gwin.clear
-  Win.clear
-  draw_field
-  rwin.move(rpos[0], rpos[1])# unless rpos[1] > Cols / 2 + 4hhhhhh
-  uwin.move(upos[0], upos[1])# unless upos[1] < Cols / 2 - Art_ua[0].size - 4
-  gwin.move(gpos[0], gpos[1])# unless gpos[0] < Rows / 2
   Win.refresh
   uwin  << Art_u
   rwin  << Art_r
@@ -108,6 +68,47 @@ loop do
   break if count > 60
 
 end
+getch
+uwin.move(umaxpos[0], umaxpos[1])
+rwin.move(rmaxpos[0], rmaxpos[1])
+upos[0] = umaxpos[0]; upos[1] = umaxpos[1]
+rpos[0] = rmaxpos[0]; rpos[1] = rmaxpos[1]
+draw_field
+refresh
 
 
+loop do
+  wins.each_value {|v| v.clear }
+  Win.clear
+  draw_field
+  rwin.move(rpos[0], rpos[1])# unless rpos[1] > Cols / 2 + 4hhhhhh
+  uwin.move(upos[0], upos[1])# unless upos[1] < Cols / 2 - Art_ua[0].size - 4
+  gwin.move(gpos[0], gpos[1])# unless gpos[0] < Rows / 2
+  Win.refresh
+  #wins.each {|k,v| v << "Art_#{k}" }
+  uwin  << Art_u
+  rwin  << Art_r
+  gwin  << Art_g
+  stdscr.setpos(0,0)
+  stdscr.addstr("#{count}, #{}")
+  #uwin.box('|','-')
+  #rwin.box('|','-')
+  stdscr.refresh
+  wins.each_value {|v| v.refresh }
+  Win.clear
+  #getch
+  sleep 0.05
+  upos[1] -= 2
+  rpos[1] += 2
+  gpos[0] += 1
+  count += 1
+  break if count > 120
 
+end
+
+uwin.clear
+  rwin.clear
+  gwin.clear
+
+
+  getch
