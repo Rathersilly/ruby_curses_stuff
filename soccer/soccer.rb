@@ -105,10 +105,31 @@ loop do
   break if count > 120
 
 end
-
 uwin.clear
-  rwin.clear
-  gwin.clear
+rwin.clear
+gwin.clear
+# ok now for the actual game
+# game init
+# make player and opponent
+class Guy
+  def initialize
+    @pos = [Rows/2, Cols/2]
+    @sprite = "!"
 
+  end
+  def update
+  end
 
-  getch
+end
+goalie = Guy.new
+shooter = Guy.new
+ball = Guy.new
+
+loop do
+  # update guys
+  # give new action
+  # draw
+  break
+end
+
+getch
