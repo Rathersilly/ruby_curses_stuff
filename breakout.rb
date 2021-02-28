@@ -1,6 +1,6 @@
 require 'curses'
 require 'io/console'
-require './init_breakout'
+require './breakout_init.rb'
 require './breakout_collide.rb'
 include Curses
 
