@@ -1,3 +1,25 @@
+module Helper
+  def oob?(*args)
+    #Log.puts "#{args.inspect}"
+    y = 0
+    x = 0
+    if args[0].class == Array
+      y = args[0][0]
+      x = args[0][1]
+    else
+      y = args[0]
+      x = args[1]
+    end
+    #Log.puts "y: #{y}, x: #{x}"
+    if y < 1 || y > Win.maxy - 2
+      return true
+    elsif x < 1 || x > Win.maxx - 2
+      return true
+    end
+    return false
+  end
+end
+
 def daily_report
   Left.setpos(1,1)
   Left << "Day: #{@day}"
@@ -12,6 +34,8 @@ def daily_report
   Left.setpos(8,1)
   Left << "Age: #{@watched.age}"
   Left.setpos(9,1)
+  Left << "Target: #{@watched.target}" 
+  Left.setpos(10,1)
   Left << Msg
   Msg.replace("")
 end
@@ -20,30 +44,25 @@ def day_cleanup
   Newplants.replace([])
   @day += 1
 end
-def update_plants
+def update_things
   Plants.each_with_index do |plant, i|
     Plants[i] = nil unless plant.update
   end
-  Log.puts "#{Plants[0].inspect}"
-  Plants.concat(Newplants)
-end
-def update_herbs
   Herbs.each_with_index do |x, i|
     Herbs[i] = nil unless x.update
   end
   #Log.puts "#{Herbs[0].inspect}"
+  Plants.concat(Newplants)
   Herbs.concat(Newherbs)
 end
 
-def purge_plants
+def purge_things
   if Plants.include? nil
-    Log.puts "deleting from #{Plants}"
+    #Log.puts "deleting from #{Plants}"
     Plants.delete(nil)
   end
-end
-def purge_herbs
   if Herbs.include? nil
-    Log.puts "deleting from #{Herbs}"
+    #Log.puts "deleting from #{Herbs}"
     Herbs.delete(nil)
   end
 end
