@@ -1,3 +1,10 @@
+class Target
+  attr_accessor :y,:x
+  def initialize(y = 0,x = 0)
+    @y = y
+    @x = x
+  end
+end
 class Animal < Being
   attr_accessor :name, :state, :hunger, :max_hunger, :target
   def initialize(y, x)
@@ -16,19 +23,60 @@ class Herb < Animal
     @shape = @shapes[0]
     @state = :idle
     @hunger = 0
-    @max_hunger = 5
+    @max_hunger = 10
     @health = 2
-    
+    @y = y
+    @x = x
+    @target = Target.new(@y,@x)
     super(y,x)
+    
   end
   def update
     return nil unless super
     @hunger += 1
-    @state = :hungry if @hunger > 1
-    find_target if @state == :hungry
+    @state = :hungry if @hunger > 5
+    if @state == :hungry && @target.class != Plant
+      find_food 
+    end
+
+    if @target.y == @y && @target.x == @x
+      if @target.class == Plant
+        eat
+      else
+        y = @y + rand(-3..3)
+        x = @x + rand(-3..3)
+        @target = Target.new(y,x)
+      end
+    end
+    approach_target if @target
+    
+    # approach target
     return true
   end
-  def find_target
+  def eat
+    @hunger = 0
+    @state = :idle 
+    #kill plant
+  end
+  def approach_target
+    Log.puts "approach: #{@target.inspect}"
+    y = @y
+    x = @x
+    if @target.y > @y
+      @y += 1
+    elsif @target.y < @y
+      @y -= 1
+    end
+    if @target.x > @x
+      @x += 1
+    elsif @target.x < @x
+      @x -= 1
+    end
+    if y != @y || x != @x
+      OldPos << [y,x]
+    end
+  end
+  def find_food
     Log.puts "Searching for target"
 
     # if hungry, find nearest plant
@@ -65,7 +113,10 @@ class Herb < Animal
       end
       break if target_flag == true
       spiral += 1
-      return false if spiral > 3
+      if spiral > 3
+        # pick random spot 
+        return false
+      end
     end
     Log.puts "Targetflag: #{target_flag}"
 

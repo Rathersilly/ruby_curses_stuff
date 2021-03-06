@@ -11,6 +11,7 @@ Plant_image = "P"
 Green = 12
 Yellow = 13
 Log = File.open("log", 'w')
+$stderr = File.open("error","w")
 if test_flag == false
   init_screen
   curs_set(0)
@@ -38,6 +39,7 @@ end
 Plants = []
 Newplants = []
 Newherbs = []
+OldPos = []
 Herbs = []
 Preds = []
 Plants << Plant.new(20,20)

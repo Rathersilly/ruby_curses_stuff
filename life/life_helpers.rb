@@ -45,6 +45,8 @@ def day_cleanup
   @day += 1
 end
 def update_things
+  $stderr.puts Plants.inspect 
+  $stderr.puts Herbs.inspect 
   Plants.each_with_index do |plant, i|
     Plants[i] = nil unless plant.update
   end
@@ -64,6 +66,10 @@ def purge_things
   if Herbs.include? nil
     #Log.puts "deleting from #{Herbs}"
     Herbs.delete(nil)
+  end
+  OldPos.each do |pos|
+    Win.setpos(pos[0],pos[1])
+    Win << ' '
   end
 end
 def draw_things
