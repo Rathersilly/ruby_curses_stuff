@@ -41,11 +41,10 @@ class Herb < Animal
 
     if @target.y == @y && @target.x == @x
       if @target.class == Plant
+        Msg.replace("EATING")
         eat
       else
-        y = @y + rand(-3..3)
-        x = @x + rand(-3..3)
-        @target = Target.new(y,x)
+        find_idle_target
       end
     end
     approach_target if @target
@@ -53,10 +52,17 @@ class Herb < Animal
     # approach target
     return true
   end
+  def find_idle_target
+    y = @y + rand(-3..3)
+    x = @x + rand(-3..3)
+    @target = Target.new(y,x)
+  end
+
   def eat
     @hunger = 0
     @state = :idle 
-    #kill plant
+    @target.state = :dead
+    find_idle_target
   end
   def approach_target
     Log.puts "approach: #{@target.inspect}"

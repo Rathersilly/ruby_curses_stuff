@@ -1,6 +1,6 @@
 class Being
   attr_accessor :x, :y, :color, :age, :adult_age, :max_age, :shape
-  attr_accessor :replicate, :rep_interval
+  attr_accessor :replicate, :rep_interval, :state
   include Helper
 
 
@@ -19,7 +19,7 @@ class Being
 
   def update
     @age += 1
-    if @age > @max_age
+    if @age > @max_age || @state == :dead
       Win.setpos(@y, @x)
       Win << ' '
       Msg.replace("#{@name} died :(") unless self.class == Plant
@@ -42,6 +42,7 @@ class Plant < Being
     @color = Green
     @shapes = ['.', Plant_image]
     @shape = @shapes[0]
+    @state = :alive
     super(y, x)
   end
 
