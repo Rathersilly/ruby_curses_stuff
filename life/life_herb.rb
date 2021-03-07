@@ -40,14 +40,15 @@ class Herb < Animal
       find_food 
     end
 
+    Log.puts "in update, target: #{target}"
     if @target == nil
-        find_idle_target
+        find_random_target
     elsif @target.y == @y && @target.x == @x
       if @target.class == Plant
         Msg.replace("EATING")
         eat
       else
-        find_idle_target
+        find_random_target
       end
     end
     approach_target if @target
@@ -55,7 +56,7 @@ class Herb < Animal
     # approach target
     return true
   end
-  def find_idle_target
+  def find_random_target
     y = @y + rand(-3..3)
     x = @x + rand(-3..3)
     @target = Target.new(y,x)
@@ -65,25 +66,28 @@ class Herb < Animal
     @hunger = 0
     @state = :idle 
     @target.state = :dead
-    find_idle_target
+    @target = nil
+    #find_random_target
   end
   def approach_target
     Log.puts "approach: #{@target.inspect}"
+    Log.puts "my pos before: #{@y}, #{@x}"
     y = @y
     x = @x
     if @target.y > @y
+      @y += 1
     elsif @target.y < @y
       @y -= 1
     end
     if @target.x > @x
       @x += 1
-      @y += 1
     elsif @target.x < @x
       @x -= 1
     end
     if y != @y || x != @x
       OldPos << [y,x]
     end
+    Log.puts "my pos after: #{@y}, #{@x}"
   end
   def find_food
     Log.puts "Searching for target"
@@ -123,7 +127,7 @@ class Herb < Animal
       break if target_flag == true
       spiral += 1
       if spiral > 3
-        # pick random spot 
+        find_random_target
         return false
       end
     end

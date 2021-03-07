@@ -36,8 +36,17 @@ def daily_report
   Left.setpos(8,1)
   Left << "Age: #{@watched.age}"
   Left.setpos(9,1)
-  Left << "Target: #{@watched.target.class}, #{@watched.target.y}, #{@watched.target.y}" 
-  Left.setpos(10,1)
+  Left << "Pos: #{@watched.y}, #{@watched.x}"
+  if Msg == "EATING"
+    Left.setpos(10,1)
+    Left << "Target: FOOD"
+  else
+    Left.setpos(10,1)
+    Left << "Target: #{@watched.target.class}"
+  end
+  Left.setpos(11,1)
+  Left <<  "Target yx: #{@watched.target.y}, #{@watched.target.y}" if @watched.target
+  Left.setpos(12,1)
   Left << Msg
   Msg.replace("")
 end
