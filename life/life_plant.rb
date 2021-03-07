@@ -1,3 +1,4 @@
+require './life_helpers'
 class Being
   attr_accessor :x, :y, :color, :age, :adult_age, :max_age, :shape
   attr_accessor :replicate, :rep_interval, :state
@@ -37,6 +38,7 @@ class Plant < Being
   def initialize(y, x)
     @rep_interval = 10
     @replicate = @rep_interval
+    @seed_radius = 3
     @adult_age = 8
 
     @color = Green
@@ -54,17 +56,19 @@ class Plant < Being
       @replicate = @rep_interval
       # spread seed
 
-      newy = rand(@y - 2..@y + 2)
-      newx = rand(@x - 2..@x + 2)
+      newy = rand(@y - @seed_radius..@y + @seed_radius)
+      newx = rand(@x - @seed_radius..@x + @seed_radius)
 
-      if newy < 1 || newy > Win.maxy - 2 ||
-         newx < 1 || newx > Win.maxx - 2
+      if oob?(newy, newx)
         newy = nil
       else
         Win.setpos(newy, newx)
-        newy = nil unless [' ', 'x'].include? Win.inch.chr
+        if ' ' == Win.inch.chr
+          Plants << Plant.new(newy, newx) unless newy.nil?
+        else
+          newy = nil
+        end
       end
-      Plants << Plant.new(newy, newx) unless newy.nil?
     end
     true
   end

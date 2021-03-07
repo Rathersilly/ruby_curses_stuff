@@ -6,7 +6,7 @@ class Target
   end
 end
 class Animal < Being
-  attr_accessor :name, :state, :hunger, :max_hunger, :target
+  attr_accessor :name, :state, :hunger, :hunger_max, :hunger_threshold, :target
   def initialize(y, x)
     super(y,x)
   end
@@ -23,7 +23,8 @@ class Herb < Animal
     @shape = @shapes[0]
     @state = :idle
     @hunger = 0
-    @max_hunger = 10
+    @hunger_threshold = 5
+    @hunger_max = 10
     @health = 2
     @y = y
     @x = x
@@ -34,12 +35,14 @@ class Herb < Animal
   def update
     return nil unless super
     @hunger += 1
-    @state = :hungry if @hunger > 5
+    @state = :hungry if @hunger > @hunger_threshold
     if @state == :hungry && @target.class != Plant
       find_food 
     end
 
-    if @target.y == @y && @target.x == @x
+    if @target == nil
+        find_idle_target
+    elsif @target.y == @y && @target.x == @x
       if @target.class == Plant
         Msg.replace("EATING")
         eat
@@ -69,12 +72,12 @@ class Herb < Animal
     y = @y
     x = @x
     if @target.y > @y
-      @y += 1
     elsif @target.y < @y
       @y -= 1
     end
     if @target.x > @x
       @x += 1
+      @y += 1
     elsif @target.x < @x
       @x -= 1
     end

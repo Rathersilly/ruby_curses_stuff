@@ -11,6 +11,8 @@ module Helper
       x = args[1]
     end
     #Log.puts "y: #{y}, x: #{x}"
+    $stderr.puts "in oob"
+    $stderr.puts "x: #{x}, y: #{y}, maxy: #{Win.maxy}, maxx: #{Win.maxx}"
     if y < 1 || y > Win.maxy - 2
       return true
     elsif x < 1 || x > Win.maxx - 2
@@ -30,7 +32,7 @@ def daily_report
   Left.setpos(6,1)
   Left << "State: #{@watched.state}"
   Left.setpos(7,1)
-  Left << "Hunger: #{@watched.hunger}/#{@watched.max_hunger}"
+  Left << "Hunger: #{@watched.hunger}/#{@watched.hunger_max}"
   Left.setpos(8,1)
   Left << "Age: #{@watched.age}"
   Left.setpos(9,1)
