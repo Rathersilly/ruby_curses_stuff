@@ -10,8 +10,13 @@ quit_flag = false
 Plant_image = "P"
 Green = 12
 Yellow = 13
-Log = File.open("log", 'w')
-$stderr = File.open("error","w")
+log = "log"
+error = "error"
+log = "/dev/null"
+error = "/dev/null"
+
+Log = File.open(log, 'w')
+$stderr = File.open(error,"w")
 if test_flag == false
   init_screen
   curs_set(0)
@@ -47,10 +52,15 @@ Plants[0].max_age = 1000
 herb = Herb.new(17, 20)
 herb.max_age = 1000
 herb.name = "Herby"
-Herbs << herb
+herb.sex = :male
+herb2 = Herb.new(25, 20)
+herb2.max_age = 1000
+herb2.name = "Herbette"
+herb2.sex = :female
+Herbs.concat [herb,herb2]
 
 LForms = [Plants, Herbs, Preds]
-State = %i|idle hungry scared|
+State = %i|idle hungry scared horny dead|
   
 @day = 0
 @watched = Herbs[0]

@@ -110,6 +110,22 @@ describe Helper do
       assert_equal(Win.oob?(10,10), false)
     end
   end
+  describe "dist" do
+    before do
+      Win = TestWin.new
+    end
+    it "should find correct distances b/w coords" do
+      x = 20
+      y = 20
+      a = 10
+      b = 10
+      d = 33.166
+      assert_in_delta(Win.dist(x,y,a,b), d, 0.01)
+      assert_in_delta(Win.dist(a,b,x,y), d, 0.01)
+    end
+  end
+      
+
 end
 
 

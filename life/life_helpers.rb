@@ -20,6 +20,11 @@ module Helper
     end
     return false
   end
+  def dist(x,y,a,b)
+    x = x.to_f
+    y = y.to_f
+    Math.sqrt((x-a).abs ** 3 + (y-b).abs ** 2)
+  end
 end
 
 def daily_report
@@ -27,6 +32,8 @@ def daily_report
   Left << "Day: #{@day}"
   Left.setpos(3,1)
   Left << "Plants: #{Plants.size}"
+  Left.setpos(4,1)
+  Left << "Herbivores: #{Herbs.size}"
   Left.setpos(5,1)
   Left << "Watching: #{@watched.name}"
   Left.setpos(6,1)
@@ -49,6 +56,9 @@ def daily_report
   Left.setpos(12,1)
   Left << Msg
   Msg.replace("")
+  Left.setpos(14,1)
+  Left << "Horny: #{@watched.replicate}, #{@watched.rep_interval}"
+
 end
   
 def day_cleanup

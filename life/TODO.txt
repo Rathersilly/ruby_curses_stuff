@@ -1,0 +1,12 @@
+Life.rb TODO list
+
+carnivores
+
+hunger and reproduction rate adjustments
+
+keyboard input:
+
+inspect mode
+watch keys - more watch windows and stats windows
+
+

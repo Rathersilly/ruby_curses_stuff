@@ -1,0 +1,11 @@
+task default: %w[test]
+
+task :test do 
+  ruby "herb_test.rb"
+  ruby "plant_test.rb"
+end
+
+task :clean do
+  rm "log"
+  rm "error"
+end

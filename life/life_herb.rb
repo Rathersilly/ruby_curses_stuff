@@ -6,25 +6,27 @@ class Target
   end
 end
 class Animal < Being
-  attr_accessor :name, :state, :hunger, :hunger_max, :hunger_threshold, :target
+  attr_accessor :name, :state, :hunger, :hunger_max, :hunger_threshold, :target, :sex
   def initialize(y, x)
     super(y,x)
   end
 end
 class Herb < Animal
-  def initialize(y, x)
-    @rep_interval = 10
-    #@name = "Herby"
+  def initialize(y, x, name = "herbivore")
+    @rep_interval = 20
+    @name = name
     @replicate = @rep_interval
     @adult_age = 10
+    rand(2) == 0 ? @sex = :male : @sex = :female
+    
 
     @color = Yellow
     @shapes = ['h',"H"]
     @shape = @shapes[0]
     @state = :idle
     @hunger = 0
-    @hunger_threshold = 5
-    @hunger_max = 10
+    @hunger_threshold = 20
+    @hunger_max = 50
     @health = 2
     @y = y
     @x = x
@@ -35,10 +37,21 @@ class Herb < Animal
   def update
     return nil unless super
     @hunger += 1
-    @state = :hungry if @hunger > @hunger_threshold
-    if @state == :hungry && @target.class != Plant
-      find_food 
+    @replicate -= 1
+    
+    if @hunger > @hunger_threshold
+      @state = :hungry
+    elsif @state == :idle && replicate <= 0
+      @state = :horny
     end
+    if @state == :hungry
+      do_hungry
+    elsif @state == :horny
+      do_horny
+    elsif @state == :dead
+      # do_dead
+    end
+
 
     Log.puts "in update, target: #{target}"
     if @target == nil
@@ -47,6 +60,9 @@ class Herb < Animal
       if @target.class == Plant
         Msg.replace("EATING")
         eat
+      elsif @target.class == Herb
+        Msg.replace("LOVIN")
+        love
       else
         find_random_target
       end
@@ -56,10 +72,39 @@ class Herb < Animal
     # approach target
     return true
   end
+  def do_hungry
+    find_food if @target.class != Plant
+  end
+  def do_horny
+    find_mate if @target.class != Herb
+  end
+
   def find_random_target
-    y = @y + rand(-3..3)
-    x = @x + rand(-3..3)
+    begin
+      y = @y + rand(-3..3)
+      x = @x + rand(-3..3)
+    end while oob?(y,x)
     @target = Target.new(y,x)
+  end
+  def find_mate
+    # go througy Herbs, find closest opposite sex
+    Log.puts "finding mate"
+
+    closest = nil
+    min = 1000
+    Herbs.each do |h|
+      next if h.nil?
+      if h.sex != @sex
+        d = dist(@y,@x,h.y,h.x)
+        if min > d
+          closest = h
+          min = d
+        end
+      end
+        
+    end
+    @target = closest
+    
   end
 
   def eat
@@ -68,6 +113,16 @@ class Herb < Animal
     @target.state = :dead
     @target = nil
     #find_random_target
+  end
+  def love
+    child = Herb.new(@y,@x)
+    Herbs << child
+    @replicate = @rep_interval
+    @state = :idle
+    @target.state = :idle
+    @target.replicate = @target.rep_interval
+    @target = nil
+    
   end
   def approach_target
     Log.puts "approach: #{@target.inspect}"
