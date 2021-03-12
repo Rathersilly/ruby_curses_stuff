@@ -23,6 +23,7 @@ def focus
   $focus = Windows.next
   $focus.attron(A_BOLD)
   $focus.box('|','-')
+  $focus.attroff(A_BOLD)
   $focus.refresh
   Log.puts "Changing focus from #{oldfocus.to_s} to #{$focus.to_s}"
   
@@ -36,6 +37,9 @@ def get_address
   q = false
   while true
     c = Adwin.getch
+    #Win.setpos(1,wcol)
+    #Win << c.to_s
+    #Win.refresh
     Log.puts address
 
     if c == 9
@@ -53,23 +57,17 @@ def get_address
 end
 #at_exit {I#
 
-Adwin.setpos(1,1)
-Adwin << "hi there"
-Win.setpos(1,1)
-Win << "hi there"
 loop do
   #input = Adwin.getch
   
-  #address = get_address
+  address = get_address
   #Adwin << input.to_s
     #address = get_address
-  getch
-  focus
 
 
 
-  #Win.setpos(1,1)
-  #Win << "Address: #{address}"
+  Win.setpos(1,1)
+  Win << "Address: #{address}"
 
   Win.refresh
   Adwin.refresh
