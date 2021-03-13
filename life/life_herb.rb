@@ -10,17 +10,24 @@ class Animal < Being
   def initialize(y, x)
     super(y,x)
   end
+  def update
+    if @hunger > @hunger_max
+      @state = :dead
+    end
+    super
+  end
 end
 class Herb < Animal
   def initialize(y, x, name = "herbivore")
-    @rep_interval = 20
+    @max_age ||= 50
+    @rep_interval = 10
     @name = name
     @replicate = @rep_interval
     @adult_age = 10
     rand(2) == 0 ? @sex = :male : @sex = :female
     
 
-    @color = Yellow
+    @color ||= Yellow
     @shapes = ['h',"H"]
     @shape = @shapes[0]
     @state = :idle
@@ -37,7 +44,7 @@ class Herb < Animal
   def update
     return nil unless super
     @hunger += 1
-    @replicate -= 1
+    @replicate -= 1 if @age > adult_age
     
     if @hunger > @hunger_threshold
       @state = :hungry
@@ -116,7 +123,8 @@ class Herb < Animal
   end
   def love
     child = Herb.new(@y,@x)
-    Herbs << child
+    rand(2) == 0 ? Herbs << child : child = nil
+    Messages[:herb_births] += 1
     @replicate = @rep_interval
     @state = :idle
     @target.state = :idle

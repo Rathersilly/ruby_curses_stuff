@@ -11,8 +11,8 @@ module Helper
       x = args[1]
     end
     #Log.puts "y: #{y}, x: #{x}"
-    $stderr.puts "in oob"
-    $stderr.puts "x: #{x}, y: #{y}, maxy: #{Win.maxy}, maxx: #{Win.maxx}"
+    #$stderr.puts "in oob"
+    #$stderr.puts "x: #{x}, y: #{y}, maxy: #{Win.maxy}, maxx: #{Win.maxx}"
     if y < 1 || y > Win.maxy - 2
       return true
     elsif x < 1 || x > Win.maxx - 2
@@ -58,6 +58,20 @@ def daily_report
   Msg.replace("")
   Left.setpos(14,1)
   Left << "Horny: #{@watched.replicate}, #{@watched.rep_interval}"
+  pos = 15
+  Left.setpos(pos, 1)
+  Left << "Herb deaths: " << Messages[:herb_deaths].to_s 
+  pos += 2
+  Left.setpos(pos, 1)
+  Left << "Herb births: " << Messages[:herb_births].to_s 
+  pos += 2
+  Messages[:reports].each do |k,v|
+    Left.setpos(pos, 1)
+    Left << k.to_s << " " << v.to_s
+    pos += 2
+  end
+  Messages[:reports].replace([])
+
 
 end
   
@@ -66,8 +80,8 @@ def day_cleanup
   @day += 1
 end
 def update_things
-  $stderr.puts Plants.inspect 
-  $stderr.puts Herbs.inspect 
+  #$stderr.puts Plants.inspect 
+  #$stderr.puts Herbs.inspect 
   Plants.each_with_index do |plant, i|
     Plants[i] = nil unless plant.update
   end
@@ -86,6 +100,7 @@ def purge_things
   end
   if Herbs.include? nil
     #Log.puts "deleting from #{Herbs}"
+    Messages[:herb_deaths] += Herbs.count(nil)
     Herbs.delete(nil)
   end
   OldPos.each do |pos|
@@ -94,10 +109,19 @@ def purge_things
   end
 end
 def draw_things
+  count = 0
   Plants.each do |x|
-    x.draw
+    draw(x)
+    count += 1
   end
   Herbs.each do |x|
-    x.draw
+    draw(x)
+    count += 1
   end
+  Log.puts 'drew #{count} things!'
+
+end
+def draw(being)
+  Win.setpos(being.y, being.x)
+  Win.attron(color_pair(being.color)) { Win << being.shape }
 end
