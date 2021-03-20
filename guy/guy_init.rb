@@ -34,9 +34,13 @@ init_screen
 noecho
 curs_set(0)
 Win = stdscr
-width = 40
-height = 20
-Map = Win.derwin(height, width, (Win.maxy - height)/2, (Win.maxx - width)/2)
+Width = 90
+Height = Win.maxy
+Midx = Width/2
+Midy = Height/2
+
+Map = Win.derwin(Height, Width, 0,Win.maxx-Width)
+#Map = Win.derwin(Height, Width, (Win.maxy - Height)/2, (Win.maxx - Width)/2)
 Map.box('|','-')
 
 
