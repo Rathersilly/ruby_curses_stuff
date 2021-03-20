@@ -30,6 +30,7 @@ def draw
 
 
 end
+Log = File.open("log", "w")
 init_screen
 noecho
 curs_set(0)
