@@ -19,6 +19,7 @@ loop do
 
   Map.refresh
   getch
+  Map.clear
   @guy.update
 
 

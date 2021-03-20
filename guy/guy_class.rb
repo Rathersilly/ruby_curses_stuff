@@ -49,6 +49,7 @@ class Guy
     #Map.draw_line_through
     Map.draw_line_through(@y,@x,dest[0],dest[1])
 
+
   end
 
   def get_dirxy
