@@ -1,6 +1,4 @@
 require 'curses'
-require './window_lines'
-require './window_arcs'
 include Curses
 
 def create_map

@@ -34,7 +34,7 @@ class Curses::Window
     if dx == 0
       dy = 1.0
     elsif dy == 0
-      dy = 1.0
+      dx = 1.0
     elsif dya > dxa
       dx /= dya
       dy = 1.0 * dysign
