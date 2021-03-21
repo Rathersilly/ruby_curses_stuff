@@ -18,7 +18,8 @@ loop do
 
 
   create_map
-  Map.draw_circle(Midy,Midx,12)
+  #Map.draw_circle(Midy,Midx,12)
+  Map.draw_circle(Midy,Midx,10)
 
   Map.refresh
   getch
