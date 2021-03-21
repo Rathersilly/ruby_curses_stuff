@@ -10,6 +10,7 @@ class Guy
     @dirx = @x + 1
     @sight_angle = Math::PI/2
     @sight_dist = 100
+    @dir = 0.0
   end
   def update
     @dest[0] = rand(Map.maxy)
@@ -48,6 +49,11 @@ class Guy
     #Map.line_through(@y,@x,y,x)
     #Map.draw_line_through
     Map.draw_line_through(@y,@x,dest[0],dest[1])
+    # drawing arc vs triangle vs angle to window
+
+    Map.draw_line_L(@y,@x,@dir-@sight_angle/2, 10)
+    Map.draw_line_L(@y,@x,@dir+@sight_angle/2, 10)
+      
 
 
   end

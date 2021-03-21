@@ -11,24 +11,43 @@ class Curses::Window
       self << '%'
     end
   end
+  
+  # draw line from y,x at angle a and radius r
+  def draw_line_L(y,x,a,r)
+    dy = -r * Math.sin(a)
+    dx = r * Math.cos(a)
+    draw_line(y,x,(y + dy).to_i,(x + dx).to_i)
 
+
+
+  end
+
+  # draw line from y0,x0 through y1,x1 to edge of window
   def draw_line_through(y0, x0, y1, x1)
     dy = y1 - y0.to_f
     dx = x1 - x0.to_f
+    dy < 0 ? dysign = -1 : dysign = 1
+    dx < 0 ? dxsign = -1 : dxsign = 1
+    dya = dy.abs
+    dxa = dx.abs
     
     if dx == 0
       dy = 1.0
     elsif dy == 0
       dy = 1.0
-    elsif dy > dx
-      dx /= dy
-      dy = 1.0
+    elsif dya > dxa
+      dx /= dya
+      dy = 1.0 * dysign
     else
-      dy /= dx
-      dx = 1.0
+      dy /= dxa
+      dx = 1.0 * dxsign
     end
     y = y0
     x = x0
+  Log.puts 'in draw_line through'
+  Log.puts "#{y0}, #{x0}, #{y1}, #{x1}"
+  Log.puts "dy dx #{dy}, #{dx}"
+  Log.puts "dys dxs #{dysign}, #{dxsign}"
 
     while true
       if x <= 0
@@ -50,6 +69,7 @@ class Curses::Window
     draw_line(y0, x0, y.to_i, x.to_i)
   end
 
+  # give coords of each point in line 
   def line_coords(y0, x0, y1, x1)
     # should return coords to draw
     coords = []
