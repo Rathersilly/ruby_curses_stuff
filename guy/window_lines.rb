@@ -1,4 +1,10 @@
 class Curses::Window
+  def draw_coords(sym, coords)
+    coords.each do |y,x|
+      setpos(y,x)
+      self << sym
+    end
+  end
   def draw_line(*args)
     if args.size == 4
       y0, x0, y1, x1 = args
@@ -10,6 +16,7 @@ class Curses::Window
       setpos(y, x)
       self << '%'
     end
+    coords
   end
   
   # draw line from y,x at angle a and radius r

@@ -90,6 +90,7 @@ class Curses::Window
       c = 0 if c == 10
     end
 
+    coords
 
   end
 end

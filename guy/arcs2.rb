@@ -57,6 +57,8 @@ class Curses::Window
     coords << [r, 0]
     coords << [-r, 0]
     Log.puts coords.inspect.to_s
+    coords.map! {|y,x| [y + y0, x + x0] }
+
 
     Log.puts 'radius'
     coords.each do |y, x|
@@ -68,12 +70,13 @@ class Curses::Window
     c = 0
     coords.each do |a, b|
       attron(A_BOLD)
-      setpos(y0 + a, x0 + b)
+      setpos(a,b)
       self << c.to_s
       c += 1
       c = 0 if c == 10
     end
     attroff(A_BOLD)
+    coords
   end
 
   def draw_arc(y0, x0, a0, a1, r)
@@ -92,14 +95,16 @@ class Curses::Window
     end
     c = 0
     coords.uniq!
+    coords.map! {|y,x| [y + y0, x + x0] }
     coords.each do |a, b|
       attron(A_BOLD)
-      setpos(y0 + a, x0 + b)
+      setpos(a, b)
       self << c.to_s
       c += 1
       c = 0 if c == 10
     end
     attroff(A_BOLD)
+    coords
 
   end
 end

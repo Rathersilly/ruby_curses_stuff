@@ -48,3 +48,45 @@ Map.box('|','-')
 Map.setpos(1,1)
 Map << "hey"
 Map.refresh
+  def fill(coords)
+  # fill area function: given array of coords, return
+  # array of thos points within those coords
+    Log.puts "FILLING"
+    Log.puts "\n\nCoords: #{coords.inspect}"
+    memo = []
+    turn = 0
+    #ys = coords.each_with_object([]) { |coord,acc| acc << coord[0] }
+    #coords.reject! { |y,x| y == ys.min || y == ys.max }
+    coords.each do |y,x|
+      # find a coord with same y
+      coords.each do |a,b|
+        if y == a
+          if x > b
+            t = b + 1
+            while t < x
+              unless coords.include?([y,t])
+                memo << [y,t]
+                #Map.draw_coords("X",memo);Map.refresh;Map.getch
+              end
+              #memo << [y,t] unless coords.include?([y,t])
+              t += 1
+            end
+          elsif b < x
+            t = x + 1
+            while t < b
+              unless coords.include?([y,t])
+                memo << [y,t]
+                #Map.draw_coords("X",memo);Map.refresh;Map.getch
+              end
+              #memo << [y,t]  unless coords.include?([y,t])
+              t += 1
+            end
+          end
+        end
+      end
+    end
+    
+    Log.puts "MEMO: #{memo.inspect}"
+    memo
+  end
+
