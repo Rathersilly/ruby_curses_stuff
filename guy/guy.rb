@@ -1,6 +1,7 @@
 require './guy_init'
 require './window_lines'
 require './window_arcs'
+require './arcs2'
 require './guy_class'
 
 
@@ -19,7 +20,8 @@ loop do
 
   create_map
   #Map.draw_circle(Midy,Midx,12)
-  Map.draw_circle(Midy,Midx,10)
+  #Map.draw_circle(Midy,Midx,10)
+  Map.draw_circle2(Midy,Midx,15)
 
   Map.refresh
   getch
