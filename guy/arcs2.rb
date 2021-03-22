@@ -1,5 +1,7 @@
 class Curses::Window
-  # this looks too square!
+  # this looks too square! FIXED!
+  # it was cus only incremented x when error > 1
+  # changed to when error > 0.5
   def draw_circle2(y0,x0,r)
 
     x = r.to_f
@@ -30,9 +32,9 @@ class Curses::Window
       Win << "dy: #{dy}, dx: #{dx}"
       Win.setpos(21,5)
       Win << "err: #{err}, xerr: #{xerr}"
-      Win.getch
+      #Win.getch
       y += 1
-      if err > 1
+      if err > 0.5
         x -= 1
         err -= 1
       end
