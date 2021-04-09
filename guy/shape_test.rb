@@ -1,8 +1,10 @@
 def test_line
   (0..Win.maxy - 1).each do |y|
+    get_input
     Win.draw_line(20,30,y,70)
     Win.refresh
-    getch
+    sleep 0.2
+    #getch
     Win.clear
   end
 end
@@ -62,7 +64,7 @@ def test_left
 end
 
 def test_circle_nls
-  # incrementing nls gives cool shimmering effect
+  # intcrementing nls gives cool shimmering effect
   first = 80
   last = 120
   step = 4
@@ -84,7 +86,9 @@ def test_squish
   step = 1
   (first..last).step(step).each do |squish|
     c = Circle.new(Midy,Midx,16,128, squish * 0.1)
+    c.color = Colors.next
     Win.attach(c)
+
     c.draw
     Win.gost 10,30, "squish: ",(squish * 0.1).round(1)
     Win.refresh
@@ -93,4 +97,32 @@ def test_squish
     Win.clear
   end
 end
+
+def test_squish_input
+  first = 1
+  last = 10
+  step = 1
+  squish = 1.0
+  while true
+    case get_input
+    when ?h, ?j
+      squish -= 1
+    when ?k, ?l
+      squish += 1
+    when ?q
+    break
+    end
+
+    c = Circle.new(Midy,Midx,16,128, squish * 0.1)
+    c.color = Colors.next
+    Win.attach(c)
+
+    c.draw
+    Win.gost 10,30, "squish: ",(squish * 0.1).round(1)
+    Win.refresh
+    sleep 0.1
+    Win.clear
+  end
+end
+
 

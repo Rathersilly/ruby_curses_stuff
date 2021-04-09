@@ -7,3 +7,8 @@ squishing: add hsquish and vsquish
 
 add keyboard controls and selection menu
 
+filling - could be possible to fill with an invisible
+character to signal things ie collision/vision
+
+input: need to get timeout and sleeps working nicely
+would like to implement it like callbacks

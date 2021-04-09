@@ -1,4 +1,5 @@
 require 'curses'
+require 'io/console'
 include Curses
 
 def create_map
@@ -30,6 +31,7 @@ def draw
 
 
 end
+
 Log = File.open("log", "w")
 init_screen
 noecho
@@ -40,6 +42,12 @@ Height = Win.maxy
 Midx = Width/2
 Midy = Height/2
 Pi = Math::PI
+
+# keyboard stuff
+cbreak
+Win.timeout = 0
+#stdscr.timeout =1000 
+#Win.keypad = true
 
 Map = Win.derwin(Height, Width, 0,Win.maxx-Width)
 #Map = Win.derwin(Height, Width, (Win.maxy - Height)/2, (Win.maxx - Width)/2)

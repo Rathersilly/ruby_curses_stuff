@@ -27,7 +27,7 @@ class Shape
   end
 
   def initialize
-    @color = :white
+    @color = White
   end
 
   def fill
@@ -63,6 +63,7 @@ class Circle < Shape
   def initialize(cy, cx, r,nls = 16, squish = 1)
     # center coordinates
     # @win = Win
+    super()
     @cx = cx.to_f
     @cy = cy.to_f
     @r = r.to_f
@@ -73,6 +74,7 @@ class Circle < Shape
   end
 
   def draw
+    @win.attron(color_pair(@color))
     #Win.getch
     theta = 0
     curx = @cx + r 
@@ -96,6 +98,7 @@ class Circle < Shape
       cury = nexty
       break if theta > 2 * Math::PI
     end
+    @win.attroff(color_pair(@color))
   end
 
   def coords
