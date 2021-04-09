@@ -8,10 +8,12 @@ class Point
 end
 
 class Shape
+  attr_accessor :win, :color
+
   class AttachError < ::StandardError
     def message
       msg = super
-      super.to_s + ": You gotta attach to a window, noob."
+      super.to_s + ": Shape must be attached to a window to be drawn."
     end
     # overriding this seems buggy - attempting to return anything
     # other than super or msg returns nil
@@ -22,9 +24,7 @@ class Shape
       #"BACKTRACING: " + msg[0]
       msg
     end
-
   end
-  attr_accessor :win, :color
 
   def initialize
     @color = :white
@@ -52,7 +52,7 @@ class Line < Shape
     end
     @win.attron(color_pair(@color))
     @win.draw_line(y0, x0, y1, x1)
-    @win.attron(color_pair(@color))
+    @win.attroff(color_pair(@color))
   end
 end
 
@@ -60,29 +60,42 @@ class Circle < Shape
   # Circle must be attached to a window
   attr_accessor :cx, :cy, :r
 
-  def initialize(cy, cx, r)
+  def initialize(cy, cx, r,nls = 16, squish = 1)
     # center coordinates
     # @win = Win
     @cx = cx.to_f
     @cy = cy.to_f
     @r = r.to_f
     # nls = number of line segments
-    @nls = 30
+    @nls = nls
     @coords = []
+    @squish = squish
   end
 
   def draw
-    # start at 0 radians
-    # first point is x,y
-    x = @cx + r
-    y = @cy
-    dist = @nls / (2 * Math::PI)
-    ny =
-      loop do
-        # draw line segment
-        @win.draw_line(@cy, @cx, @cy, @cx)
-        break
-      end
+    #Win.getch
+    theta = 0
+    curx = @cx + r 
+    cury = @cy
+    # going around entire circle
+    loop do
+      #break
+      theta += (2 * Math::PI)/@nls
+      nextx = @cx + r * Math.cos(theta)
+      nexty = @cy + r * Math.sin(theta) * @squish
+      # draw line segments
+      # this is ok but not pixelly symmetrical
+      # oh just draw 1/4?
+      # oh nls should probs be a certain multiple
+      @win.draw_line(cury.round,curx.round,nexty.round,nextx.round)
+
+      # lol no 
+      #@win.draw_line(cury.to_i,curx.to_i,nexty.to_i,nextx.to_i)
+      #Win.getch
+      curx = nextx
+      cury = nexty
+      break if theta > 2 * Math::PI
+    end
   end
 
   def coords

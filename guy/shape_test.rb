@@ -60,3 +60,37 @@ def test_left
     Win.clear
   end
 end
+
+def test_circle_nls
+  # incrementing nls gives cool shimmering effect
+  first = 80
+  last = 120
+  step = 4
+  (first..last).step(step).each do |nls|
+    c = Circle.new(Midy,Midx,16,nls)
+    Win.attach(c)
+    c.draw
+    Win.gost 10,30, "nls: ",nls
+    Win.refresh
+    #sleep 0.1
+    Win.getch
+    Win.clear
+  end
+end
+
+def test_squish
+  first = 1
+  last = 10
+  step = 1
+  (first..last).step(step).each do |squish|
+    c = Circle.new(Midy,Midx,16,128, squish * 0.1)
+    Win.attach(c)
+    c.draw
+    Win.gost 10,30, "squish: ",(squish * 0.1).round(1)
+    Win.refresh
+    #sleep 0.1
+    Win.getch
+    Win.clear
+  end
+end
+
