@@ -8,8 +8,9 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
 endif
 set shortmess=aoO
 badd +1 guy.rb
-badd +1 window_lines.rb
-badd +0 window_arcs.rb
+badd +1 win
+badd +7 window_arcs.rb
+badd +0 arcs2.rb
 badd +0 guy_init.rb
 argglobal
 %argdel
@@ -65,7 +66,7 @@ wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 66 + 67) / 134)
 exe 'vert 2resize ' . ((&columns * 67 + 67) / 134)
-tabedit window_lines.rb
+tabedit window_arcs.rb
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -88,16 +89,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 15) / 31)
+let s:l = 7 - ((6 * winheight(0) + 15) / 31)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+7
 normal! 0
-lcd ~/ncurses_stuff/guy
 wincmd w
 argglobal
-if bufexists("~/ncurses_stuff/guy/window_arcs.rb") | buffer ~/ncurses_stuff/guy/window_arcs.rb | else | edit ~/ncurses_stuff/guy/window_arcs.rb | endif
+if bufexists("arcs2.rb") | buffer arcs2.rb | else | edit arcs2.rb | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}

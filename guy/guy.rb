@@ -11,8 +11,26 @@ create_map
 @guy.dest = [10,15]
 
 @x = 30
-@y = 2
+@y = Midy
+radius = 10
 theta = 0.0
+dx = 1
+loop do
+  
+  coords = Map.draw_circle2(@y,@x,radius)
+  fill_coords = fill(coords)
+  Map.draw_coords("#",fill_coords)
+  @x += dx
+  if @x == Map.maxx - radius
+    @x = Map.maxx - radius
+    dx = -dx
+  elsif @x == 0+ radius
+    dx = - dx
+  end
+  Map.refresh; Win.refresh
+  sleep 0.01; Map.clear; Win.clear;
+end
+
 loop do
   # draw arc and 2 lines - put all points in array
   Win << "Map.draw_line_L(Midy,Midx,theta,10)"
@@ -28,6 +46,7 @@ loop do
   Map.clear; Win.clear;
   theta -= Math::PI / 16
   theta = 0 if theta > Math::PI * 2
+  break
 
 end
 Map.getch
