@@ -1,5 +1,6 @@
 class Curses::Window
   def gost(y,x,*strings)
+    # GO to y,x and print STring(s)
     setpos(y,x)
     strings.each do |s|
       self << s.to_s << " "
@@ -12,6 +13,7 @@ class Curses::Window
 
   def draw_line(y0,x0,y1,x1, sym = "X")
     # may need to do rounding because of circle
+    
     if x0 > x1
       x0, x1 = x1, x0
       y0, y1 = y1, y0

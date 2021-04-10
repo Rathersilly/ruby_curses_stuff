@@ -96,14 +96,24 @@ def do_menu(input = nil)
 end
 
 
+def test_draw_8ths
+  loop do
+    c = Circle.new(Midy,Midx,16)
+    Win.attach(c)
+    c.color = Cyan
+    c.draw_8ths
+    Win.refresh
+    sleep 0.1
+  end
+end
 
 
-Win.getch
 
 
 do_menu
 loop do
-  do_menu(get_input)
+  #do_menu(get_input)
+  test_draw_8ths
   sleep 0.2
 
 

@@ -45,7 +45,7 @@ Pi = Math::PI
 
 # keyboard stuff
 cbreak
-Win.timeout = 0
+#Win.timeout = 0
 #stdscr.timeout =1000 
 #Win.keypad = true
 

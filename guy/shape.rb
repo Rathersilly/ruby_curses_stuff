@@ -12,22 +12,18 @@ class Shape
 
   class AttachError < ::StandardError
     def message
-      msg = super
       super.to_s + ": Shape must be attached to a window to be drawn."
-    end
-    # overriding this seems buggy - attempting to return anything
-    # other than super or msg returns nil
-    def backtrace
-      msg = super
-      #Win.gost 20,20,msg.class
-      #Win.gost 24,20,msg.size rescue nil
-      #"BACKTRACING: " + msg[0]
-      msg
     end
   end
 
   def initialize
     @color = White
+  end
+
+  def draw
+    if @win.nil?
+      raise AttachError
+    end
   end
 
   def fill
@@ -60,13 +56,13 @@ class Circle < Shape
   # Circle must be attached to a window
   attr_accessor :cx, :cy, :r
 
-  def initialize(cy, cx, r,nls = 16, squish = 1)
+  def initialize(cy, cx, r,nls = 160, squish = 1)
     # center coordinates
     # @win = Win
     super()
-    @cx = cx.to_f
-    @cy = cy.to_f
-    @r = r.to_f
+    @cx = cx
+    @cy = cy
+    @r = r
     # nls = number of line segments
     @nls = nls
     @coords = []
@@ -74,6 +70,7 @@ class Circle < Shape
   end
 
   def draw
+    super
     @win.attron(color_pair(@color))
     #Win.getch
     theta = 0
@@ -97,6 +94,41 @@ class Circle < Shape
       curx = nextx
       cury = nexty
       break if theta > 2 * Math::PI
+    end
+    @win.attroff(color_pair(@color))
+  end
+
+  def draw_8ths
+    # this is just to check window attachment
+    method(:draw).super_method.call
+    
+    # by calculating for only 1/8 of circle and just
+    # flipping signs, pixel symmetry is assured
+
+    @win.attron(color_pair(@color))
+    theta = 0
+    curx = r.round
+    cury = 0
+    loop do
+      theta += (2 * Math::PI)/@nls
+      nextx = (r * Math.cos(theta)).round
+      nexty = (r * Math.sin(theta)).round
+
+      @win.draw_line(cy+cury,cx+curx,cy+nexty,cx+nextx)
+      @win.draw_line(cy-cury,cx-curx,cy-nexty,cx-nextx)
+      @win.draw_line(cy+cury,cx-curx,cy+nexty,cx-nextx)
+      @win.draw_line(cy-cury,cx+curx,cy-nexty,cx+nextx)
+
+      @win.draw_line(cy+curx,cx+cury,cy+nextx,cx+nexty)
+      @win.draw_line(cy-curx,cx-cury,cy-nextx,cx-nexty)
+      @win.draw_line(cy+curx,cx-cury,cy+nextx,cx-nexty)
+      @win.draw_line(cy-curx,cx+cury,cy-nextx,cx+nexty)
+      @win.refresh
+      @win.getch
+
+      curx = nextx
+      cury = nexty
+      break if theta > 2 * Math::PI / 8
     end
     @win.attroff(color_pair(@color))
   end
