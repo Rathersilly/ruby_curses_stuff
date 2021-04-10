@@ -125,4 +125,29 @@ def test_squish_input
   end
 end
 
+def test_draw_8ths
+  loop do
+    c = Circle.new(Midy,Midx,16)
+    Win.attach(c)
+    c.color = Cyan
+    c.draw_8ths
+    Win.refresh
+    sleep 0.1
+  end
+end
+
+def test_draw_arcs
+  a0 = 0
+  a1 = Math::PI/4
+  step = Math::PI/32
+  loop do
+    Win.draw_arc(Midy,Midx,a0,a1,10)
+    Win.refresh
+    a0 += step
+    a1 += step
+    getch
+    Win.clear
+
+  end
+end
 

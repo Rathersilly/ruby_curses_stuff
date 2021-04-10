@@ -18,7 +18,7 @@ class Curses::Window
       x0, x1 = x1, x0
       y0, y1 = y1, y0
     end
-    if x1 - x0 == 0
+    if x1 - x0 == 0         # vertical line
       (y1-y0) > 0 ? m = 1 : m = -1
       err = y1-y0.to_f
     else
@@ -49,6 +49,18 @@ class Curses::Window
     end
     setpos(y1,x1)
     self << sym
+  end
+  def draw_arc(cy,cx,a0,a1,r,step=Math::PI/32)
+    a1,a0 = a0,a1 if a1 < a0
+    theta = a0
+    while theta < a1
+      y = (r * Math.sin(theta)).round
+      x = (r * Math.cos(theta)).round
+      setpos(cy+y,cx+x)
+      self << "X"
+      theta += step
+    end
+
   end
 
 end
