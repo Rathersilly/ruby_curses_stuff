@@ -151,3 +151,63 @@ def test_draw_arcs
   end
 end
 
+def test_draw_wedges
+  a0 = 0
+  a1 = Math::PI/4
+  step = Math::PI/32
+  loop do
+    Win.wedge(Midy,Midx,a0,a1,10)
+    Win.refresh
+    a0 += step
+    a1 += step
+    getch
+    Win.clear
+
+  end
+end
+
+def test_draw_pies
+  a0 = 0
+  a1 = Math::PI/4
+  step = Math::PI/32
+  loop do
+    Win.pie(Midy,Midx,a0,a1,10)
+    Win.refresh
+    a0 += step
+    a1 += step
+    getch
+    Win.clear
+
+  end
+end
+
+def test_draw_pies2
+  a0 = 0
+  a1 = Math::PI/4
+  step = Math::PI/32
+  loop do
+    Win.pie2(Midy,Midx,a0,a1,10)
+    Win.refresh
+    a0 += step
+    a1 += step
+    getch
+    Win.clear
+
+  end
+end
+
+def test_draw_pies3
+  a0 = 0
+  a1 = Math::PI/4
+  step = Math::PI/32
+  loop do
+    Win.pie3(Midy,Midx,a0,a1,10)
+    Win.refresh
+    a0 += step
+    a1 += step
+    getch
+    Win.clear
+
+  end
+end
+

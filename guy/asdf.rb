@@ -104,7 +104,17 @@ loop do
   #do_menu(get_input)
   #test_draw_8ths
   #sleep 0.2
-  test_draw_arcs
+  #test_draw_arcs
+  #test_draw_wedges
+  #test_draw_pies
+  #test_draw_pies2
+  test_draw_pies3
+  #Win.rectf(10,10,20,20, color: Green)#, sym: '%')
+
+  #Win.pie3(Midy,Midx,0,Math::PI/4,20)
+
+  #Win.refresh
+  getch
 
 
   #send tests.first

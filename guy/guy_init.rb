@@ -44,7 +44,7 @@ Midy = Height/2
 Pi = Math::PI
 
 # keyboard stuff
-cbreak
+#cbreak
 #Win.timeout = 0
 #stdscr.timeout =1000 
 #Win.keypad = true

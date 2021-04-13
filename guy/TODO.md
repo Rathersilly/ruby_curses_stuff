@@ -12,3 +12,6 @@ character to signal things ie collision/vision
 
 input: need to get timeout and sleeps working nicely
 would like to implement it like callbacks
+
+using the Point class as argument might make things
+clearer
