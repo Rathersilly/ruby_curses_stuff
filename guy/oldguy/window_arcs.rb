@@ -1,3 +1,4 @@
+# this file has a draw_circle function only
 class Curses::Window
   def draw_circle(y0,x0,r)
     # starting at 0, draw line and go upward

@@ -15,3 +15,8 @@ would like to implement it like callbacks
 
 using the Point class as argument might make things
 clearer
+
+Fill: the line to other line is ok idea, but need to
+start at the one thats longer in the axis you're
+drawing on.
+

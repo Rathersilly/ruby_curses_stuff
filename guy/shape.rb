@@ -98,7 +98,7 @@ class Circle < Shape
     @win.attroff(color_pair(@color))
   end
 
-  def draw_8ths
+  def draw_8ths(delay = 0)
     # this is just to check window attachment
     method(:draw).super_method.call
     
@@ -124,7 +124,7 @@ class Circle < Shape
       @win.draw_line(cy+curx,cx-cury,cy+nextx,cx-nexty)
       @win.draw_line(cy-curx,cx+cury,cy-nextx,cx+nexty)
       @win.refresh
-      @win.getch
+      sleep delay
 
       curx = nextx
       cury = nexty

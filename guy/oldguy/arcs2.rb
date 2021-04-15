@@ -1,3 +1,7 @@
+# this file has a circle function and arc function.
+# they put coords in array and draw them
+# - only ok for low res like curses
+
 class Curses::Window
   # this looks too square! FIXED!
   # it was cus only incremented x when error > 1

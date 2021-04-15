@@ -16,6 +16,7 @@ radius = 10
 theta = 0.0
 dx = 1
 loop do
+  break
   
   coords = Map.draw_circle2(@y,@x,radius)
   fill_coords = fill(coords)
@@ -35,9 +36,9 @@ loop do
   # draw arc and 2 lines - put all points in array
   Win << "Map.draw_line_L(Midy,Midx,theta,10)"
   coords = []
-  coords += Map.draw_line_L(Midy,Midx,theta - 2,10)
-  coords += Map.draw_line_L(Midy,Midx,theta ,10)
-  coords += Map.draw_arc(Midy,Midx, theta - 2,theta,10)
+  coords += Map.draw_line_L(Midy,Midx,theta - 2,12)
+  coords += Map.draw_line_L(Midy,Midx,theta ,12)
+  coords += Map.draw_arc(Midy,Midx, theta - 2,theta,12)
   fill_coords = fill(coords)
   Map.draw_coords("#",fill_coords)
 
@@ -46,7 +47,7 @@ loop do
   Map.clear; Win.clear;
   theta -= Math::PI / 16
   theta = 0 if theta > Math::PI * 2
-  break
+  #break
 
 end
 Map.getch
